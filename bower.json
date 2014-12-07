@@ -4,12 +4,13 @@
   "dependencies": {
     "angular": "*",
     "angular-route": "*",
-    "angular-local-storage" : "*",
+    "angular-local-storage": "*",
     "noty": "*",
     "jquery": "*",
     "bootstrap": "*",
-    "cryptojslib" : "*",
-    "requirejs" : "*"
+    "cryptojslib": "*",
+    "requirejs": "*",
+    "angular-mocks": "~1.3.5"
   },
   "private": true,
   "ignore": [

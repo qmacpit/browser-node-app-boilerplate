@@ -1,5 +1,5 @@
 
-define([
+define("app", [
     'angular',
     'angularRoute',
     'angularLocalStorage',
@@ -15,7 +15,6 @@ define([
         'myAppServices',
         'mainAppControllers'
     ]);
-
 
     mainApp.config(['$httpProvider',function ($httpProvider) {
         $httpProvider.interceptors.push('TokenInterceptor');

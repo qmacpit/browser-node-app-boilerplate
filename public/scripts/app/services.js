@@ -1,4 +1,4 @@
-define(['angular','noty'], function (angular,noty) {
+define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
     'use strict';
 
     var myAppServices = angular.module('myAppServices', []);

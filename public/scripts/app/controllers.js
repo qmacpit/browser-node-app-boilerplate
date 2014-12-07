@@ -1,20 +1,15 @@
-define(['angular'], function (angular) {
+define("controllers", 
+    ['angular', 'services', "controllers/navController", "controllers/dummyController"], 
+    function (angular, services, NavController, DummyController) {
     'use strict';
 
     var mainAppControllers = angular.module('mainAppControllers', []);
 
-    mainAppControllers.controller('NavCtrl', ['$scope', '$http','$location','localStorageService','AuthenticationService',
-        function ($scope, $http,$location,localStorageService,AuthenticationService) {
+    mainAppControllers.controller('NavCtrl', NavController);
 
-
-            $scope.isAuthenticated = AuthenticationService.isLogged()
-
-            $scope.logout = function()
-            {
-                localStorageService.clearAll();
-                $location.path("/login");
-            }
-        }
+    mainAppControllers.controller('DummyCtrl', 
+        ['$scope',
+        DummyController
     ]);
 
     mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$location', "cryptoJSService",'localStorageService',
@@ -65,15 +60,13 @@ define(['angular'], function (angular) {
                 var enc_check_password = CryptoJS.PBKDF2($scope.check_password, salt, { keySize: 256/32 });
 
                 var user = {"username": $scope.username, "password": enc_password.toString(), "check_password" : enc_check_password.toString() };
-
                 if($scope.username!==undefined || $scope.password !==undefined || $scope.check_password !==undefined){
-
-                    if($scope.password !== $scope.check_password){
+                    if($scope.password !== $scope.check_password){                        
                         noty({text: 'password and check_password must be the same!',  timeout: 2000, type: 'warning'});
                     }else{
                         $http({method: 'POST', url: '/api/signup', data:user}).
                             success(function(data, status, headers, config) {
-                                noty({text: "Username is registered correctly!",  timeout: 2000, type: 'success'});
+                                // noty({text: "Username is registered correctly!",  timeout: 2000, type: 'success'});
                                 $scope.username = null;
                                 $scope.password = null;
                                 $scope.check_password = null;

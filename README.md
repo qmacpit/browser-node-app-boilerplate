@@ -51,7 +51,29 @@ Runs like a typical express app:
 
 ### Running tests
 
-Coming soon!
+#### e2e tests
+
+install protractor
+
+    npm install -g protractor
+
+update webdrive-manager
+
+    webdriver-manager update
+
+start webdriver-manager
+
+    webdriver-manager start
+
+run tests 
+
+    protractor tests/system/conf.js;        
+
+#### unit tests
+
+run tests 
+
+    karma start tests/functional/conf.js        
 
 ### Receiving updates from upstream
 

@@ -11,8 +11,10 @@
 <body>
 
     <div id="app-container" ng-view></div>
-
-    <script data-main="scripts/webapp.min.js" src="scripts/lib/requirejs/require.js"></script>
+	
+	<!-- uncomment this in release mode -->
+    <!-- <script data-main="scripts/webapp.min.js" src="scripts/lib/requirejs/require.js"></script> -->
+    <script data-main="scripts/main.js" src="scripts/lib/requirejs/require.js"></script>
 
 </body>
 </html>
