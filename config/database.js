@@ -31,6 +31,4 @@ module.exports = function(callback) {
             process.exit(0);
         });
     });
-
-    // return connection;
 }

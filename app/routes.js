@@ -1,6 +1,6 @@
-module.exports = function(app, passport,models) {
+module.exports = function(app, passport) {
 
-    var api = require('./api.js')(models);
+    var api = require('./api.js')();
 
     app.get('/', function(req, res){
         res.render('index');

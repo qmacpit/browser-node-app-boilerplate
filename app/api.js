@@ -1,25 +1,23 @@
 var UserDao = require("../datastore/userDao");
 
-module.exports = function(models){
-
-    // var User = models.user;
-    // var Person = models.person;
-    // var Thing = models.thing;
-
+module.exports = function(){
+    
     return {
 
         signup: function (req,res)
         {
 
             var user = req.body;
-            if (!user || !password)
+            if (!user.username || !user.username)
                 res.send(500, "user/password cannot be blank");
             user.role = "user";
-            UserDao.createUser(user, function(err, _user){
-                if (err)
-                    return res.send(err);
-                res.json(_user);
-            })            
+            UserDao.createUser(user)
+            .then(function(_user){
+               return res.json(_user);    
+            })
+            .onReject(function(){
+                res.send(500, {'message': err});
+            });
         },        
         login:function(req,res)
         {

@@ -23,18 +23,6 @@ try {
     console.log("config.json not provided");
 }
 
-var models;
-var connection = require('./config/database')(function(){
-    models = require('./models/models')(connection);
-    require('./config/passport')(passport,models); // pass passport for configuration
-    require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-    _performApplicationStartup(config)
-});
-
-
-
-
-
 app.configure(function() {
     // set up our express application
     app.set('port', port);
@@ -70,6 +58,12 @@ if (app.get('env') === 'production') {
 };
 
 //express.vhost(vhost, app);
+require('./config/database')(function(){
+    require('./config/passport')(passport); 
+    require('./app/routes.js')(app, passport); 
+    _performApplicationStartup(config)
+});
+
 
 var server = http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + vhost+":"+server.address().port);
@@ -82,8 +76,9 @@ function _performApplicationStartup (_config, callback) {
     for (var i = 0, current; i < _config.admins.length; i++)
         current = _config.admins[i];
         current.role = "admin";
-        UserDao.createAndHashUser(current, function(err, user) {
-            console.log(err);
-            console.log(user);
+        UserDao.createAndHashUser(current)
+        .onReject(function(err){
+            console.error("creating admin failed")
+            console.error(err)
         });
 }

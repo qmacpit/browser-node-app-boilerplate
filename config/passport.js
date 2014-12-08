@@ -5,7 +5,7 @@ var uuid = require('node-uuid');
 var moment = require('moment');
 var User = require("../models/user");
 
-module.exports = function(passport,models) {
+module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
