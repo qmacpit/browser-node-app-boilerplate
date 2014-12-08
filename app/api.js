@@ -1,35 +1,26 @@
+var UserDao = require("../datastore/userDao");
+
 module.exports = function(models){
 
-    var User = models.user;
-    var Person = models.person;
-    var Thing = models.thing;
+    // var User = models.user;
+    // var Person = models.person;
+    // var Thing = models.thing;
 
     return {
 
         signup: function (req,res)
         {
 
-            var body = req.body;
-
-            User.findOne({ username: body.username
-            },function(err, user) {
+            var user = req.body;
+            if (!user || !password)
+                res.send(500, "user/password cannot be blank");
+            user.role = "user";
+            UserDao.createUser(user, function(err, _user){
                 if (err)
-                    res.send(500, {'message': err});
-                // check to see if theres already a user with that email
-                if (user) {
-                    res.send(403, {'message': 'User already exist!'});
-                }else {
-                    var newUser = new User({ username: body.username,email: body.email, password:body.password})
-                    newUser.save(function (err, user) {
-                        if (err){
-                            res.send(500, {'message': err});
-                        }
-                        res.json({ 'message': 'User was successfully registered!'});
-                    });
-                }
-            });
-        },
-
+                    return res.send(err);
+                res.json(_user);
+            })            
+        },        
         login:function(req,res)
         {
             res.json({ auth_token: req.user.token.auth_token});
@@ -95,9 +86,10 @@ module.exports = function(models){
         getPeople: function(req,res)
         {
 
-            Person.find(function(err,people){
-                res.json({people: people });
-            })
+            // Person.find(function(err,people){
+                // res.json({people: people });
+                res.json({});
+            // })
 
 
         },
@@ -155,10 +147,10 @@ module.exports = function(models){
 
         getThings: function(req,res)
         {
-            Thing.find(function(err,things){
-                res.json({things: things });
-            });
-
+            // Thing.find(function(err,things){
+            //     res.json({things: things });
+            // });
+            res.json({});
         }
 
 

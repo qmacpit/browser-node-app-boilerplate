@@ -18,7 +18,8 @@
     "grunt": "*",
     "grunt-npm-install": "*",
     "grunt-bower-installer": "*",
-    "grunt-contrib-requirejs": "*"
+    "grunt-contrib-requirejs": "*",
+    "crypto-js": "^3.1.2-5"
   },
   "devDependencies": {
     "random-string": "^0.1.1",

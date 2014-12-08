@@ -2,7 +2,6 @@
  * Module dependencies
 */
 var express  = require('express');
-var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var http = require('http');
@@ -15,9 +14,25 @@ var ip     = process.env.IP || "localhost";
 
 var app = express();
 
-var connection = require('./config/database')(mongoose);
-var models = require('./models/models')(connection);
-require('./config/passport')(passport,models); // pass passport for configuration
+var config;
+var UserDao = require('./datastore/userDao');
+
+try {
+    config = require("./config.json");
+} catch (e) {
+    console.log("config.json not provided");
+}
+
+var models;
+var connection = require('./config/database')(function(){
+    models = require('./models/models')(connection);
+    require('./config/passport')(passport,models); // pass passport for configuration
+    require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+    _performApplicationStartup(config)
+});
+
+
+
 
 
 app.configure(function() {
@@ -44,8 +59,6 @@ app.configure(function() {
 
 });
 
-require('./app/routes.js')(app, passport,models); // load our routes and pass in our app and fully configured passport
-
 // development only
 if (app.get('env') === 'development') {
     app.use(express.errorHandler());
@@ -61,3 +74,16 @@ if (app.get('env') === 'production') {
 var server = http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + vhost+":"+server.address().port);
 });
+
+function _performApplicationStartup (_config, callback) {
+    if (!_config)
+        callback();
+
+    for (var i = 0, current; i < _config.admins.length; i++)
+        current = _config.admins[i];
+        current.role = "admin";
+        UserDao.createAndHashUser(current, function(err, user) {
+            console.log(err);
+            console.log(user);
+        });
+}

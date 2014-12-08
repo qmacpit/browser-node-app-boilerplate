@@ -3,10 +3,9 @@ var LocalStrategy   = require('passport-local').Strategy;
 var BearerStrategy   = require('passport-http-bearer').Strategy;
 var uuid = require('node-uuid');
 var moment = require('moment');
+var User = require("../models/user");
 
 module.exports = function(passport,models) {
-
-    var User = models.user;
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
