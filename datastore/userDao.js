@@ -24,5 +24,8 @@ module.exports = {
 	createAndHashUser: function(user) {		                               
 		user.password = CryptoJS(user.password, user.username, { keySize: 256/32 }).toString();
 		return this.createUser(user);
+	},
+	removeUsers: function(criteria){
+		return User.remove(criteria).exec();
 	}
 }

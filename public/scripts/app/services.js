@@ -11,7 +11,7 @@ define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
                     config.headers = config.headers || {};
 
                     if(localStorageService.get("auth_token")!==null)
-                        config.headers.Authorization = 'Bearer '+localStorageService.get("auth_token");
+                        config.headers.Authorization = 'Bearer '+ localStorageService.get("auth_token");
 
                     return config;
                 },
@@ -44,11 +44,17 @@ define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
         return {
             isLogged: function()
             {
+                //TODO: great piece of code
                 var authenticated = false;
                 if(localStorageService.get("auth_token")!==null)
                     authenticated = true;
 
                 return authenticated;
+            },
+            isUser: function(role){
+                console.log(localStorageService.get("role"))
+                console.log(role)
+                return localStorageService.get("role") === role;
             }
         }
     }])

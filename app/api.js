@@ -21,7 +21,10 @@ module.exports = function(){
         },        
         login:function(req,res)
         {
-            res.json({ auth_token: req.user.token.auth_token});
+            res.json({ 
+                auth_token: req.user.token.auth_token,
+                role: req.user.role
+            });
         },
 
         logout: function(req,res)
@@ -142,14 +145,26 @@ module.exports = function(){
             })
 
         },
-
         getThings: function(req,res)
         {
             // Thing.find(function(err,things){
             //     res.json({things: things });
             // });
             res.json({});
-        }
+        },
+        removeUsers: function(req,res)
+        {
+            UserDao.removeUsers({
+                role: "user"
+            })
+            .then(function(){
+                res.send(200);
+            })
+            .onReject(function(err){
+                res.send(500, err);
+            })
+
+        },
 
 
     }

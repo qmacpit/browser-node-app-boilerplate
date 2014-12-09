@@ -29,6 +29,7 @@ define("controllers",
                         success(function(data, status, headers, config) {
 
                             localStorageService.set("auth_token",data.auth_token);
+                            localStorageService.set("role",data.role);
                             $location.path("/home");
 
                         }).

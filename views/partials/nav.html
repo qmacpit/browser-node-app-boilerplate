@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="#/person">Add Person</a></li>
                     <li><a href="#/thing">Create Thing</a></li>
-
+                    <li ng-show="isAdmin"><a href="" ng-click="removeUsers()">Remove Users</a></li>
                 </ul>
             </li>
             <li ng-show="isAuthenticated"><a href="" ng-click="logout()">Logout</a></li>

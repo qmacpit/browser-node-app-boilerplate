@@ -61,15 +61,19 @@ module.exports = function(app, passport) {
         session: false
     }),api.removeThing);
 
+    app.delete('/api/users', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }), hasRole("admin"), api.removeUsers);
 
 
 
-
-
-
-
-
-
+    function hasRole(role) {
+        return function(req, res, next){
+            if (req.user.role === role)
+                return next();
+            res.send(403);
+        };
+    }
 
     function showClientRequest(req, res, next) {
         var request = {
