@@ -64,7 +64,7 @@ var Ajaxer = function(baseUrl){
 
     this.delete = function(url) {
         var deferred = Q.defer();
-        _client.get(_baseUrl + url, {
+        _client.delete(_baseUrl + url, {
             headers: {
                 'Authorization': "Bearer " + _auth_token
             }

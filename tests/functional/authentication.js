@@ -13,6 +13,16 @@ describe("authentication suite", function(){
 		ajaxer.logout();
 	});
 
+	after(function(done){
+		ajaxer.login(admin.username, admin.password)
+		.then(function(){			
+			return ToolBox.Users.removeUsers(ajaxer);			
+		})
+		.then(function(){
+			return done();
+		});
+	});
+
 	it("login/logout", function(done){
 
 		ajaxer.login(admin.username, admin.password)

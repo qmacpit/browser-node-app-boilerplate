@@ -7,6 +7,9 @@ module.exports = {
 				username: username,
 				password: pbkdf2(password, username, { keySize: 256/32 }).toString()
 			})
+		},
+		removeUsers: function(ajaxer){
+			return ajaxer.delete("/users");
 		}
 	}
 }
