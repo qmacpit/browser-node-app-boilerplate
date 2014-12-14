@@ -28,9 +28,8 @@ module.exports = function(config) {
         {pattern: 'public/scripts/app/**/*.js', included: false},
         // {pattern: 'public/scripts/lib/**/*.js', included: false},
         // {pattern: 'public/scripts/app/**/*.js', included: false},
-        {pattern: 'tests/functional/authenticationSpec.js', included: false},
-        'tests/functional/main-functional.js'
-        // 'tests/functional/*Spec.js'            
+        {pattern: 'tests/unit/authenticationSpec.js', included: false},
+        'tests/unit/main-unit.js'
     ],
 
 

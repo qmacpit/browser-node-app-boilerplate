@@ -1,7 +1,6 @@
 define([
 	'angular', 'angularMocks', "controllers", 'cryptojslib'], function (angular, mock ,app, cryptojslib) {
 
-		console.log("setup")
 	describe("authentication suite", function(){
 
 	 	var scope, ctrl, httpBackend;
