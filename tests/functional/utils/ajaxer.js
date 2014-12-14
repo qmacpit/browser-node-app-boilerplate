@@ -48,6 +48,7 @@ var Ajaxer = function(baseUrl){
                 'Authorization': "Bearer " + _auth_token
             }
         },_processResponse(deferred));
+        _auth_token = "";
         return deferred.promise;
     };
 
@@ -61,23 +62,27 @@ var Ajaxer = function(baseUrl){
         return deferred.promise;
     }
 
-    // this.delete = function(url) {
-    //     var deferred = Q.defer();
-    //     _client.delete(_baseUrl + "REST/" + url, _processResponse(deferred));
-    //     return deferred.promise;
-    // }
+    this.delete = function(url) {
+        var deferred = Q.defer();
+        _client.get(_baseUrl + url, {
+            headers: {
+                'Authorization': "Bearer " + _auth_token
+            }
+        },_processResponse(deferred));
+        return deferred.promise;
+    }
 
-    // this.post = function(url, data) {
-    //     var deferred = Q.defer();
-    //     _client.post(_baseUrl + "REST/" + url, {
-    //         data: JSON.stringify(data),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Cookie': _cookie
-    //         }
-    //     }, _processResponse(deferred));
-    //     return deferred.promise;
-    // }
+    this.post = function(url, data) {
+        var deferred = Q.defer();
+        _client.post(_baseUrl + url, {
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                'Authorization': "Bearer " + _auth_token
+            }
+        }, _processResponse(deferred));
+        return deferred.promise;
+    }
 };
 
 module.exports = Ajaxer;

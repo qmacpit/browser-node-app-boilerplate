@@ -10,7 +10,7 @@ module.exports = {
         .exec()
         .then(function(existingUser){
 			if (existingUser) {
-                throw new Error('User already exist!');
+                throw new Error('User already exists');
             } else {
                 var newUser = new User({ 
                     username: user.username,

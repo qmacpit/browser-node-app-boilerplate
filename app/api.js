@@ -15,8 +15,9 @@ module.exports = function(){
             .then(function(_user){
                return res.json(_user);    
             })
-            .onReject(function(){
-                res.send(500, {'message': err});
+            .onReject(function(err){
+                console.log(err);
+                res.send(500, err.message);
             });
         },        
         login:function(req,res)
