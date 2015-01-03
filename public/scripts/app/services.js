@@ -21,12 +21,9 @@ define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
                 },
                 responseError : function (response) {
 
-                    console.log(response);
-
                     if(response.config.url!=="/api/login" && response.status===401){
                         localStorageService.clearAll();
                         $location.path("/login");
-                        noty({text: "You have to perform signin to earned access to privileged resources!",  timeout: 2000, type: 'error'});
                     }
 
                     return $q.reject(response);
@@ -38,6 +35,22 @@ define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
     myAppServices.service('cryptoJSService',
         function(){
         return CryptoJS;
+    })
+
+    myAppServices.service('InfoService',
+        function(){
+        return {
+            success: function(msg) {
+
+            },
+            error: function(msg) {                
+                window.noty({
+                    text: msg,  
+                    timeout: 2000, 
+                    type: 'error'
+                });
+            }
+        };
     })
 
     myAppServices.service('AuthenticationService',['localStorageService',function(localStorageService){
@@ -52,9 +65,12 @@ define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
                 return authenticated;
             },
             isUser: function(role){
-                console.log(localStorageService.get("role"))
-                console.log(role)
                 return localStorageService.get("role") === role;
+            },
+            getUserData: function() {
+                return {
+                    username: localStorageService.get("username") 
+                }
             }
         }
     }])

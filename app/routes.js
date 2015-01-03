@@ -23,11 +23,17 @@ module.exports = function(app, passport) {
     }),api.login);
 
     app.post('/api/signup', showClientRequest, api.signup);
-
+    app.post('/api/changePassword', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }), api.changePassword);
 
     app.get('/api/logout', showClientRequest, passport.authenticate('local-authorization', {
         session: false
     }),api.logout);
+
+    app.get('/api/users', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }),api.getUsers);
 
     app.get('/api/people', showClientRequest, passport.authenticate('local-authorization', {
         session: false
@@ -61,6 +67,9 @@ module.exports = function(app, passport) {
         session: false
     }),api.removeThing);
 
+    app.delete('/api/user/:id', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }), hasRole("admin"), api.removeUsers);
     app.delete('/api/users', showClientRequest, passport.authenticate('local-authorization', {
         session: false
     }), hasRole("admin"), api.removeUsers);

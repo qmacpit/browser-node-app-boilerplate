@@ -1,28 +1,46 @@
 var Toolbox = require('./toolbox');
 var randomString = require('random-string');
+var config  = require("../../config.json");
 
 describe("authentication suite", function(){
+
+	var admin = config.admins[0];
 
 	beforeEach(function() {
       browser.get('http://localhost:3000/');
     });	
 
-	it("login/logout", function(){
-		Toolbox.NavBar.logIn("macpit", "ppp");
-		expect(Toolbox.NavBar.getNavBarElements().last().getAttribute("class")).not.toBe("ng-hide");
+	it("login/logout", function(done){
+
+		Toolbox.WelcomePage.openLoginPage();   
+		Toolbox.LoginPage.login(admin.username, admin.password);
 		Toolbox.NavBar.logout();
-		expect(Toolbox.NavBar.getNavBarElements().last().getAttribute("class")).toBe("ng-hide");
+
+		browser.getLocationAbsUrl()
+		.then(function(url){
+			expect(url).toBe("/welcome");
+			done();
+		})
+
 	});
 
-	it("register user", function(){
+	it("register user", function(done){
+
 		var username = randomString({length: 10}),
 			password = randomString();
 
-		Toolbox.NavBar.register(username, password);		
-		Toolbox.NavBar.logIn(username, password);
-		expect(Toolbox.NavBar.getNavBarElements().last().getAttribute("class")).not.toBe("ng-hide");
-		Toolbox.NavBar.logout();
-		expect(Toolbox.NavBar.getNavBarElements().last().getAttribute("class")).toBe("ng-hide");
+		Toolbox.WelcomePage.openRegistrationPage();
+		Toolbox.RegistrationPage.registerUser(username, password);
+
+		Toolbox.WelcomePage.openLoginPage();   
+		Toolbox.LoginPage.login(username, password);
+		browser.getLocationAbsUrl()
+		.then(function(url){
+			expect(url).toBe("/home");
+			Toolbox.NavBar.logout();
+			done();
+		})
+		
 	});
 
 });

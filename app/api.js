@@ -2,6 +2,15 @@ var UserDao = require("../datastore/userDao");
 
 module.exports = function(){
     
+    function _handleRequest(req, res, promise) {
+        promise.then(function(data){
+           return res.json(data);    
+        })
+        .onReject(function(err){            
+            res.send(500, err);
+        });
+    };
+
     return {
 
         signup: function (req,res)
@@ -24,10 +33,10 @@ module.exports = function(){
         {
             res.json({ 
                 auth_token: req.user.token.auth_token,
-                role: req.user.role
+                role: req.user.role,
+                username: req.user.username
             });
         },
-
         logout: function(req,res)
         {
             req.user.auth_token = null;
@@ -37,6 +46,22 @@ module.exports = function(){
                 }
                 res.json({ message: 'See you!'});
             });
+        },
+        changePassword: function(req, res) {
+            var data = req.body;
+            if (data.oldPassword !== req.user.password)
+                return res.send(500, "old password doesn't match");
+
+            if (data.newPassword1 !== data.newPassword2)
+                return res.send(500, "new password doesn't match");
+
+            req.user.password = data.newPassword1;            
+            _handleRequest(req, res, UserDao.update(req.user));
+        },
+        getUsers: function(req, res){
+            return _handleRequest(req, res, UserDao.getUsers({
+                role: "user"
+            }));
         },
         createPerson: function(req,res)
         {
@@ -155,9 +180,15 @@ module.exports = function(){
         },
         removeUsers: function(req,res)
         {
-            UserDao.removeUsers({
-                role: "user"
-            })
+            var id = req.params.id,
+                criteria = {
+                    role: "user"
+                };
+
+            if (id)
+                criteria._id = id;
+
+            UserDao.removeUsers(criteria)
             .then(function(){
                 res.send(200);
             })

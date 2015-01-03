@@ -4,12 +4,14 @@ define("controllers/navController", [], function(){
 
         $scope.isAuthenticated = AuthenticationService.isLogged()
 
-        $scope.isAdmin = AuthenticationService.isUser("admin");        
+        $scope.isAdmin = AuthenticationService.isUser("admin");    
+
+        $scope.userData = AuthenticationService.getUserData();   
 
         $scope.logout = function()
         {
             localStorageService.clearAll();
-            $location.path("/login");
+            $location.path("/welcome");
         }
 
         $scope.removeUsers = function()

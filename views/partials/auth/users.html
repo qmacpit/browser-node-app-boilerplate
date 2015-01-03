@@ -1,0 +1,64 @@
+<div ng-include src="'partials/nav.html'"></div>
+<div ng-include src="'partials/header.html'"></div>
+
+<div class="container-fluid">
+
+
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-info">
+
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Users</div>
+
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" width="30%">Username</th>
+                                        <th class="text-center" width="30%">Role</th>
+                                        <th class="text-center" width="20%"><span class="glyphicon glyphicon-trash"></span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="user in users">
+                                        <td class="text-center" ng-hide="thing.modify">{{user.username}}</td>
+                                        <td class="text-center" ng-hide="thing.modify">{{user.role}}</td>
+                                        <td class="text-center" ng-hide="thing.modify">
+                                            <button type="button" ng-click="deleteUser($index)" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+

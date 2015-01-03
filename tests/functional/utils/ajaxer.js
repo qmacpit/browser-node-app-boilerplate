@@ -15,7 +15,13 @@ var Ajaxer = function(baseUrl){
                 case 200:
                 case 201:
                 case 204:
-                    return deferred.resolve(data, response);
+                    var json;
+                    try {
+                        json = JSON.parse(data);
+                    } catch (e) {
+                        json = data
+                    }
+                    return deferred.resolve(json, response);
                 default:
                     deferred.reject(new Error(data));
             }

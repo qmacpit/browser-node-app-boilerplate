@@ -96,4 +96,75 @@ describe("authentication suite", function(){
 
 	});	
 	
+	it("change password - success", function(done){
+
+		var username = randomString({length: 10}),
+			password = randomString(),
+			newPassword = randomString();
+
+		ToolBox.Users.createUser(ajaxer, username, password)
+		.then(function(){
+			return ajaxer.login(username, password);
+		})
+		.then(function(){
+			return ToolBox.Users.changePassword(ajaxer, username, password, newPassword, newPassword);
+		})
+		.then(function(){
+			return ajaxer.logout();
+		})
+		.then(function(){
+			return ajaxer.login(username, newPassword);
+		})
+		.then(function(){
+			done();
+		})
+        .fail(function(err){        	
+            return done(err);
+        });
+
+	});	
+
+	it("change password - old password doesn't match", function(done){
+
+		var username = randomString({length: 10}),
+			password = randomString(),
+			newPassword = randomString();
+
+		ToolBox.Users.createUser(ajaxer, username, password)
+		.then(function(){
+			return ajaxer.login(username, password);
+		})
+		.then(function(){
+			return ToolBox.Users.changePassword(ajaxer, username, "xxxx", newPassword, newPassword);
+		})
+		.then(function(){
+			done("old passowrd must match");
+		})
+        .fail(function(err){        	
+            return done();
+        });
+
+	});	
+
+	it("change password - new password don't match", function(done){
+
+		var username = randomString({length: 10}),
+			password = randomString(),
+			newPassword = randomString();
+
+		ToolBox.Users.createUser(ajaxer, username, password)
+		.then(function(){
+			return ajaxer.login(username, password);
+		})
+		.then(function(){
+			return ToolBox.Users.changePassword(ajaxer, username, password, newPassword, "xxxx");
+		})
+		.then(function(){
+			done("new passowords must match");
+		})
+        .fail(function(err){        	
+            return done();
+        });
+
+	});	
 });

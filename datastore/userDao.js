@@ -15,7 +15,7 @@ module.exports = {
                 var newUser = new User({ 
                     username: user.username,
                     role: user.role, 
-                    password: user.password
+                    password: user.password 
                 });
                 return newUser.save()
             }
@@ -27,5 +27,13 @@ module.exports = {
 	},
 	removeUsers: function(criteria){
 		return User.remove(criteria).exec();
-	}
+	},
+    getUsers: function(criteria) {
+        return User.find(criteria).exec();
+    },
+    update: function(user) {
+        return User.update({ '_id': user._id}, {            
+            password: user.password 
+        }).exec();
+    },
 }
