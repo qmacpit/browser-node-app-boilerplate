@@ -18,9 +18,51 @@ module.exports = function(grunt) {
                 }
             }
         },
+        watch: {
+            stylesheets: {
+                files: ['public/stylesheets/less/**/*.less'],
+                tasks: ['less'],
+                options: {
+                    livereload: true
+                }
+            },
+            frontEnd: {
+                files: ['public/scripts/**/*'],
+                options: {
+                    livereload: true
+                }
+            },
+            backEnd: {
+                files: ['dataStore/**/*', 'app/**/*', 'models/**/*', 'views/**/*'],
+                tasks: []
+            }
+        },
+        less: {
+            options: {
+                paths: 'public/stylesheets/'
+            },
+            src: {
+                expand: true,
+                cwd: 'public/stylesheets/',
+                src: [
+                    'less/**/*.less'
+                ],
+                ext: '.css',
+                dest: 'public/stylesheets/css/',
+                rename: function(dest, src) {
+                    console.log(src);
+                    console.log(dest);
+                    var array = src.split("/"), filename = array[array.length - 1];
+                    return dest + filename.split(".")[0] + ".css";
+                }
+            }
+        },
         nodemon: {
             dev: {
-                script: 'server.js'
+                script: 'server.js',
+                options: {
+                    ignore: ['node_modules/**', 'public/**']
+                }
             }
         }
 
@@ -29,7 +71,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-npm-install');
     grunt.loadNpmTasks('grunt-bower-installer');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
-
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-nodemon');
 
     grunt.registerTask('init', ['npm-install', 'bower:install']);
