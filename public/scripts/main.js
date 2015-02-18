@@ -9,9 +9,7 @@ require.config({
         'angularLocalStorage' : 'angular-local-storage/dist/angular-local-storage.min',
         'cryptojslib' : 'cryptojslib/rollups/pbkdf2',
         'jquery' : 'jquery/dist/jquery.min',
-        'noty': 'noty/js/noty/jquery.noty',
-        'noty.themes.default': 'noty/js/noty/themes/default',
-        'noty.layouts.top': 'noty/js/noty/layouts/top',
+        'toastr': 'toastr/toastr.min',
         'bootstrap' : 'bootstrap/dist/js/bootstrap.min'
     },
     shim: {
@@ -29,22 +27,18 @@ require.config({
         'cryptojslib' : {
             exports : 'cryptojslib'
         },
-        'noty': ['jquery'],
-        'noty.themes.default': {
-            deps: ['jquery', 'noty'],
-            exports: 'jquery'
-        },
-        'noty.layouts.top': {
-            deps: ['jquery', 'noty'],
-            exports: 'jquery'
+        'toastr': {
+            exports : 'toastr'  
         },
         'bootstrap' : ['jquery']
     }
 });
 
 
-require(['require','angular','angularRoute','angularLocalStorage','cryptojslib','noty',
-    'noty.themes.default','noty.layouts.top','bootstrap','app'], function () {
+require([
+    'require', 'angular', 'angularRoute', 'angularLocalStorage', 
+    'cryptojslib', 'toastr', 'bootstrap','app'], 
+    function () {
     angular.element(document).ready(function() {
         angular.bootstrap(document, ['mainApp']);
     });

@@ -1,4 +1,4 @@
-define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
+define("services", ['angular','toastr', 'cryptojslib'], function (angular,toastr) {
     'use strict';
 
     var myAppServices = angular.module('myAppServices', []);
@@ -44,11 +44,7 @@ define("services", ['angular','noty', 'cryptojslib'], function (angular,noty) {
 
             },
             error: function(msg) {                
-                window.noty({
-                    text: msg,  
-                    timeout: 2000, 
-                    type: 'error'
-                });
+                toastr.error(msg, 'error');
             }
         };
     })
